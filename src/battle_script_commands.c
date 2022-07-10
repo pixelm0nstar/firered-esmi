@@ -3105,19 +3105,21 @@ static void atk23_getexp(void)
                         ++viaExpShare;
                 }
             }
-            calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
+            calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 5;
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
-                *exp = SAFE_DIV(calculatedExp / 2, viaSentIn);
+                //*exp = SAFE_DIV(calculatedExp / 2, viaSentIn);
+                *exp = calculatedExp;
                 if (*exp == 0)
                     *exp = 1;
-                gExpShareExp = calculatedExp / 2 / viaExpShare;
+                gExpShareExp = calculatedExp / 2 /*/ viaExpShare*/;
                 if (gExpShareExp == 0)
                     gExpShareExp = 1;
             }
             else
             {
-                *exp = SAFE_DIV(calculatedExp, viaSentIn);
+                //*exp = SAFE_DIV(calculatedExp, viaSentIn);
+                *exp = calculatedExp;
                 if (*exp == 0)
                     *exp = 1;
                 gExpShareExp = 0;
@@ -3156,6 +3158,7 @@ static void atk23_getexp(void)
                 {
                     BattleStopLowHpSound();
                     PlayBGM(MUS_VICTORY_WILD);
+                    //PlayBGM(MUS_RS_VS_TRAINER);
                     ++gBattleStruct->wildVictorySong;
                 }
                 if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP))
@@ -3164,6 +3167,12 @@ static void atk23_getexp(void)
                         gBattleMoveDamage = *exp;
                     else
                         gBattleMoveDamage = 0;
+
+                    //Gen V-like scaling
+                    //gBattleMoveDamage *= (2 * gBattleMons[gBattlerFainted].level + 10) / (gBattleMons[gBattlerFainted].level + GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) + 10) *
+                    //                     (2 * gBattleMons[gBattlerFainted].level + 10) / (gBattleMons[gBattlerFainted].level + GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) + 10);
+                    //gBattleMoveDamage++;
+
                     if (holdEffect == HOLD_EFFECT_EXP_SHARE)
                         gBattleMoveDamage += gExpShareExp;
                     if (holdEffect == HOLD_EFFECT_LUCKY_EGG)

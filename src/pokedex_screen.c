@@ -1380,6 +1380,7 @@ static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
         for (i = 0; i < KANTO_DEX_COUNT; i++)
         {
             ndex_num = i + 1;
+            //ndex_num = sSpeciesToNationalPokedexNum[i];
             seen = DexScreen_GetSetPokedexFlag(ndex_num, FLAG_GET_SEEN, FALSE);
             caught = DexScreen_GetSetPokedexFlag(ndex_num, FLAG_GET_CAUGHT, FALSE);
             if (seen)
@@ -2671,26 +2672,26 @@ void DexScreen_PrintMonCategory(u8 windowId, u16 species, u8 x, u8 y)
 
     categoryName = (u8 *)gPokedexEntries[species].categoryName;
     index = 0;
-    if (DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, FALSE))
-    {
-#if REVISION == 0
-        while ((categoryName[index] != CHAR_SPACE) && (index < 11))
-#else
+    //if (DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, FALSE))
+    //{
+//#if REVISION == 0
+        //while ((categoryName[index] != CHAR_SPACE) && (index < 11))
+//#else
         while ((categoryName[index] != EOS) && (index < 11))
-#endif
+//#endif
         {
             categoryStr[index] = categoryName[index];
             index++;
         }
-    }
-    else
-    {
-        while (index < 11)
-        {
-            categoryStr[index] = CHAR_QUESTION_MARK;
-            index++;
-        }
-    }
+    //}
+    //else
+    //{
+        //while (index < 11)
+        //{
+            //categoryStr[index] = CHAR_QUESTION_MARK;
+            //index++;
+        //}
+    //}
 
     categoryStr[index] = EOS;
 

@@ -33,6 +33,8 @@
 #include "constants/pokemon.h"
 #include "constants/trainer_classes.h"
 
+#include "random.h"
+
 enum
 {
     TRAINER_PARAM_LOAD_VAL_8BIT,
@@ -277,7 +279,19 @@ static void DoGhostBattle(void)
 
 static void DoTrainerBattle(void)
 {
-    CreateBattleStartTask(GetTrainerBattleTransition(), 0);
+    u16 rnd = Random() % 2;
+    u16 song;
+
+    if (rnd)
+    {
+        song = MUS_RS_VS_TRAINER;
+    }
+    else
+    {
+        song = 0;
+    }
+
+    CreateBattleStartTask(GetTrainerBattleTransition(), song);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_TRAINER_BATTLES);
 }

@@ -961,6 +961,7 @@ static void Task_OakSpeech12(u8 taskId)
     }
 }
 
+//2021-11-06 - change nidoran cry to marill
 static void Task_OakSpeech13(u8 taskId)
 {
     if (IsCryFinished())
@@ -974,7 +975,7 @@ static void Task_OakSpeech13(u8 taskId)
         if (gTasks[taskId].data[3] == 32)
         {
             OaksSpeechPrintMessage(gOakText_WorldInhabited2, sOakSpeechResources->textSpeed);
-            PlayCry1(SPECIES_NIDORAN_F, 0);
+            PlayCry1(SPECIES_MARILL, 0);
         }
     }
 }
@@ -1625,13 +1626,14 @@ static void CB2_ReturnFromNamingScreen(void)
     gMain.state++;
 }
 
+//2021-11-06 - change nidoran sprite to marill
 static void CreateNidoranFSprite(u8 taskId)
 {
     u8 spriteId;
 
-    DecompressPicFromTable(&gMonFrontPicTable[SPECIES_NIDORAN_F], OakSpeechNidoranFGetBuffer(0), SPECIES_NIDORAN_F);
-    LoadCompressedSpritePaletteUsingHeap(&gMonPaletteTable[SPECIES_NIDORAN_F]);
-    SetMultiuseSpriteTemplateToPokemon(SPECIES_NIDORAN_F, 0);
+    DecompressPicFromTable(&gMonFrontPicTable[SPECIES_MARILL], OakSpeechNidoranFGetBuffer(0), SPECIES_MARILL);
+    LoadCompressedSpritePaletteUsingHeap(&gMonPaletteTable[SPECIES_MARILL]);
+    SetMultiuseSpriteTemplateToPokemon(SPECIES_MARILL, 0);
     spriteId = CreateSprite(&gMultiuseSpriteTemplate, 0x60, 0x60, 1);
     gSprites[spriteId].callback = SpriteCallbackDummy;
     gSprites[spriteId].oam.priority = 1;

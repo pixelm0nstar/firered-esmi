@@ -3063,6 +3063,7 @@ static void atk23_getexp(void)
     s32 sentIn;
     s32 viaExpShare = 0;
     u16 *exp = &gBattleStruct->expValue;
+    f32 scale;
 
     gBattlerFainted = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
     sentIn = gSentPokesToOpponent[(gBattlerFainted & 2) >> 1];
@@ -3169,9 +3170,12 @@ static void atk23_getexp(void)
                         gBattleMoveDamage = 0;
 
                     //Gen V-like scaling
-                    //gBattleMoveDamage *= (2 * gBattleMons[gBattlerFainted].level + 10) / (gBattleMons[gBattlerFainted].level + GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) + 10) *
-                    //                     (2 * gBattleMons[gBattlerFainted].level + 10) / (gBattleMons[gBattlerFainted].level + GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) + 10);
-                    //gBattleMoveDamage++;
+                    scale = (2 * (f32) gBattleMons[gBattlerFainted].level + 10) / (gBattleMons[gBattlerFainted].level + GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) + 10);
+                    //                   (2 * gBattleMons[gBattlerFainted].level + 10) / (gBattleMons[gBattlerFainted].level + GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) + 10);
+                    scale *= scale;
+                    scale *= gBattleMoveDamage;
+                    scale += 1;
+                    gBattleMoveDamage = (s32) scale;
 
                     if (holdEffect == HOLD_EFFECT_EXP_SHARE)
                         gBattleMoveDamage += gExpShareExp;
